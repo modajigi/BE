@@ -1,6 +1,9 @@
 package com.sideproject.modazin.dto;
 
 
+import lombok.Getter;
+
+@Getter
 public class UserSignUpReq {
     private String email;
     private String nickName;
@@ -10,5 +13,6 @@ public class UserSignUpReq {
     private String phoneNumber;
     private String profile;
 
-
+    public UserSignUpReq() {
+    }
 }
