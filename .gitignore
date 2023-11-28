@@ -88,12 +88,6 @@ cmake-build-*/
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 
-# File-based project format
-*.iws
-
-# IntelliJ
-out/
-
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -255,5 +249,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+#local
+src/main/resources/application-local.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,visualstudiocode,macos,windows,java
