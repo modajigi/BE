@@ -158,3 +158,6 @@ $RECYCLE.BIN/
 
 #local
 src/main/resources/application-local.yml
+
+#restDoc files
+*.adoc
