@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,7 +25,7 @@ public class User {
     @Column(name = "user_seq", nullable = false)
     private Long userSeq;
 
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true) // unique key 추가
     private String email;
 
     @Column(name = "nick_name", nullable = false)
@@ -33,6 +34,11 @@ public class User {
     //    @Column(name = "password", nullable = false)
     private String password;
 
+//    암호화
+//    public void encodePassword(PasswordEncoder passwordEncoder){
+//        this.password = passwordEncoder.encode(password);
+//    }
+
     @Column(nullable = false)
     private float longitude;
 
@@ -40,7 +46,7 @@ public class User {
     private float latitude;
 
     @Column(name = "location_created_at", nullable = false)
-    private Date locationCreatedAt;
+    private LocalDateTime locationCreatedAt;
 
     @Column(name = "phone_number", nullable = true)
     private String phoneNumber;
@@ -56,10 +62,10 @@ public class User {
     private String badge;
 
     @Column(name = "created_at", nullable = false)
-    private Date CreatedAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "deleted_at", nullable = true)
-    private Date DeleteAt;
+    private LocalDateTime deleteAt;
 
     @Column(nullable = false)
     @ColumnDefault("'USER'") // default
