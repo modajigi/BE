@@ -25,7 +25,7 @@ public class User {
     @Column(name = "user_seq", nullable = false)
     private Long userSeq;
 
-    @Column(nullable = false , unique = true) // unique key 추가
+    @Column(nullable = false , unique = true) // DB에 unique key 추가
     private String email;
 
     @Column(name = "nick_name", nullable = false)
