@@ -1,18 +1,17 @@
 package com.sideproject.modazin.entity.user;
 
+import com.sideproject.modazin.dto.user.UserSignUpReq;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Getter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,13 +30,8 @@ public class User {
     @Column(name = "nick_name", nullable = false)
     private String nickName;
 
-    //    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
-
-//    암호화
-//    public void encodePassword(PasswordEncoder passwordEncoder){
-//        this.password = passwordEncoder.encode(password);
-//    }
 
     @Column(nullable = false)
     private float longitude;
@@ -71,6 +65,24 @@ public class User {
     @ColumnDefault("'USER'") // default
     @Enumerated(EnumType.STRING)
     private Authority authority ;
+
+    public void createUser(UserSignUpReq userSignUpReq, PasswordEncoder passwordEncoder) {
+        User.builder()
+                .email(userSignUpReq.getEmail())
+                .nickName(userSignUpReq.getNickName())
+                .password(passwordEncoder.encode(userSignUpReq.getPassword()))
+                .longitude(userSignUpReq.getLongitude())
+                .latitude(userSignUpReq.getLatitude())
+//                .locationCreatedAt(new Date())
+                .phoneNumber(userSignUpReq.getPhoneNumber())
+                .profile(userSignUpReq.getProfile())
+                .status("Y")
+                .badge(userSignUpReq.getBadge())
+//                .createdAt(new Date())
+//                .deleteAt(new Date())
+                .authority(Authority.USER)
+                .build();
+    }
 
 }
 
