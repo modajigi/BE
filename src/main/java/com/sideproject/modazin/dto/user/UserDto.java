@@ -34,13 +34,13 @@ public class UserDto {
     @Enumerated(EnumType.STRING)
     private Authority authority ;
 
-    public User toEntity() {
-        User user = User.builder()
+    public User toEntity(String encodedPassword) {
+        return  User.builder()
                  // .entity(dto)
                     .userSeq(userSeq)
                     .email(email)
                     .nickName(nickName)
-                    .password(password)
+                    .password(encodedPassword)
                     .longitude(longitude)
                     .latitude(latitude)
                     .locationCreatedAt(locationCreatedAt)
@@ -52,8 +52,5 @@ public class UserDto {
                     .deleteAt(deleteAt)
                     .authority(authority)
                     .build();
-
-        return user;
     }
-
 }
