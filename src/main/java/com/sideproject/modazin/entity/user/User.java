@@ -1,6 +1,6 @@
 package com.sideproject.modazin.entity.user;
 
-//import com.sideproject.modazin.dto.user.UserSignUpReq;
+import com.sideproject.modazin.dto.user.UserSignUpReq;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -66,23 +66,23 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Authority authority ;
 
-//    public void createUser(UserSignUpReq userSignUpReq, PasswordEncoder passwordEncoder) {
-//        User.builder()
-//                .email(userSignUpReq.getEmail())
-//                .nickName(userSignUpReq.getNickName())
-//                .password(passwordEncoder.encode(userSignUpReq.getPassword()))
-//                .longitude(userSignUpReq.getLongitude())
-//                .latitude(userSignUpReq.getLatitude())
-////                .locationCreatedAt(new Date())
-//                .phoneNumber(userSignUpReq.getPhoneNumber())
-//                .profile(userSignUpReq.getProfile())
-//                .status("Y")
-//                .badge(userSignUpReq.getBadge())
-////                .createdAt(new Date())
-////                .deleteAt(new Date())
-//                .authority(Authority.USER)
-//                .build();
-//    }
+    public void createUser(UserSignUpReq userSignUpReq, PasswordEncoder passwordEncoder) {
+        User.builder()
+                .email(userSignUpReq.getEmail())
+                .nickName(userSignUpReq.getNickName())
+                .password(passwordEncoder.encode(userSignUpReq.getPassword()))
+                .longitude(userSignUpReq.getLongitude())
+                .latitude(userSignUpReq.getLatitude())
+//                .locationCreatedAt(new Date())
+                .phoneNumber(userSignUpReq.getPhoneNumber())
+                .profile(userSignUpReq.getProfile())
+                .status("Y")
+                .badge(userSignUpReq.getBadge())
+//                .createdAt(new Date())
+//                .deleteAt(new Date())
+                .authority(Authority.USER)
+                .build();
+    }
 
 }
 
