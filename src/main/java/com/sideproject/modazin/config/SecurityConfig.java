@@ -17,17 +17,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                        auth.requestMatchers("/").permitAll()
-                                .requestMatchers("/user/signup").permitAll()
-                                .anyRequest().authenticated();
+                    auth.requestMatchers("/").permitAll()
+                            .requestMatchers("/user/login").permitAll()
+                            .anyRequest().authenticated();
                 })
-                .formLogin(f->f.disable());
+                .formLogin(form -> {
+                    form.loginProcessingUrl("/login")
+                            .loginPage("/user/login") // 로그인 페이지
+                            .permitAll()
+                            .failureUrl("/user/login") // 로그인 실패 시 이동 할 페이지
+                            .defaultSuccessUrl("/"); // 로그인 성공시 이동페이지
+                })
+                .logout((out) -> {
+                            out.logoutSuccessUrl("/user/login") // 로그아웃성공 페이지
+                                    .logoutUrl("/logout") //로그아웃성공 시 이동할 url
+                                    .invalidateHttpSession(true) /*로그아웃시 세션 제거*/
+                                    .deleteCookies("JSESSIONID") /*쿠키 제거*/
+                                    .clearAuthentication(true) /*권한정보 제거*/
+                                    .permitAll();
+                        }
+                );
 
         return http.build();
     }

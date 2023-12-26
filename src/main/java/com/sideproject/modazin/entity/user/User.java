@@ -66,20 +66,20 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Authority authority ;
 
-    public void createUser(UserSignUpReq userSignUpReq, PasswordEncoder passwordEncoder) {
-        User.builder()
+    public static User createUser(UserSignUpReq userSignUpReq, PasswordEncoder passwordEncoder) {
+        return User.builder()
                 .email(userSignUpReq.getEmail())
                 .nickName(userSignUpReq.getNickName())
                 .password(passwordEncoder.encode(userSignUpReq.getPassword()))
                 .longitude(userSignUpReq.getLongitude())
                 .latitude(userSignUpReq.getLatitude())
-//                .locationCreatedAt(new Date())
+                .locationCreatedAt(LocalDateTime.now()) // 현재 시간 사용
                 .phoneNumber(userSignUpReq.getPhoneNumber())
                 .profile(userSignUpReq.getProfile())
                 .status("Y")
                 .badge(userSignUpReq.getBadge())
-//                .createdAt(new Date())
-//                .deleteAt(new Date())
+                .createdAt(LocalDateTime.now()) // 현재 시간 사용
+                .deleteAt(null) // 초기에는 삭제 시간이 없음
                 .authority(Authority.USER)
                 .build();
     }
