@@ -161,5 +161,3 @@ src/main/resources/application-local.yml
 
 #restDoc files
 *.adoc
-
-/mysql-data
