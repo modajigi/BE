@@ -1,17 +1,16 @@
-package com.sideproject.modazin.entity.user;
+package com.sideproject.modazin.entity;
 
-import com.sideproject.modazin.dto.user.UserSignUpReq;
+import com.sideproject.modazin.dto.user.UserSignUpDto;
+import com.sideproject.modazin.enums.user.Authority;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -66,18 +65,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Authority authority ;
 
-    public static User createUser(UserSignUpReq userSignUpReq, PasswordEncoder passwordEncoder) {
+    public static User createUser(UserSignUpDto userSignUpDto, PasswordEncoder passwordEncoder) {
         return User.builder()
-                .email(userSignUpReq.getEmail())
-                .nickName(userSignUpReq.getNickName())
-                .password(passwordEncoder.encode(userSignUpReq.getPassword()))
-                .longitude(userSignUpReq.getLongitude())
-                .latitude(userSignUpReq.getLatitude())
+                .email(userSignUpDto.getEmail())
+                .nickName(userSignUpDto.getNickName())
+                .password(passwordEncoder.encode(userSignUpDto.getPassword()))
+                .longitude(userSignUpDto.getLongitude())
+                .latitude(userSignUpDto.getLatitude())
                 .locationCreatedAt(LocalDateTime.now()) // 현재 시간 사용
-                .phoneNumber(userSignUpReq.getPhoneNumber())
-                .profile(userSignUpReq.getProfile())
+                .phoneNumber(userSignUpDto.getPhoneNumber())
+                .profile(userSignUpDto.getProfile())
                 .status("Y")
-                .badge(userSignUpReq.getBadge())
+                .badge(userSignUpDto.getBadge())
                 .createdAt(LocalDateTime.now()) // 현재 시간 사용
                 .deleteAt(null) // 초기에는 삭제 시간이 없음
                 .authority(Authority.USER)

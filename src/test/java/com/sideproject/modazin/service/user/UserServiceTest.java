@@ -1,7 +1,7 @@
 package com.sideproject.modazin.service.user;
 
-import com.sideproject.modazin.entity.user.Authority;
-import com.sideproject.modazin.entity.user.User;
+import com.sideproject.modazin.enums.user.Authority;
+import com.sideproject.modazin.entity.User;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

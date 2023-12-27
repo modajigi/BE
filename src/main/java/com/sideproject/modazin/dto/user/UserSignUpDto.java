@@ -1,19 +1,17 @@
 package com.sideproject.modazin.dto.user;
 
-import com.sideproject.modazin.entity.user.Authority;
+import com.sideproject.modazin.enums.user.Authority;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDateTime;
-@Data
-@Builder
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSignUpReq {
+@Builder
+public class UserSignUpDto {
     private Long userSeq;
     private String email;
     private String nickName;
