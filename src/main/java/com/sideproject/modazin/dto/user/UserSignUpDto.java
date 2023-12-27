@@ -4,6 +4,8 @@ import com.sideproject.modazin.enums.user.Authority;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,8 +18,8 @@ public class UserSignUpDto {
     private String email;
     private String nickName;
     private String password;
-    private float longitude;
-    private float latitude;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
     private LocalDateTime locationCreatedAt;
     private String phoneNumber;
     private String profile;

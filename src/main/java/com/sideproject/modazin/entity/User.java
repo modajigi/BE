@@ -7,6 +7,8 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,10 +35,10 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private float longitude;
+    private BigDecimal longitude;
 
     @Column(nullable = false)
-    private float latitude;
+    private BigDecimal latitude;
 
     @Column(name = "location_created_at", nullable = false)
     private LocalDateTime locationCreatedAt;
