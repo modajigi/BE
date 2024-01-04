@@ -1,5 +1,6 @@
 package com.sideproject.modazin.entity;
 
+import com.sideproject.modazin.dto.CommentCreateDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,25 +10,28 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "comment")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_seq")
-    private int commentSeq;
+    private long commentSeq;
 
-    @Column(name = "content_type", nullable = false)
-    private String contentType = "C";
+    @Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'C'")
+    private String contentType;
 
     @ManyToOne
     @JoinColumn(name = "write_user_seq", nullable = false)
     private User writeUserSeq;
-
-    @Column(name = "post_Type", nullable = false)
-    private String postType;
 
     @ManyToOne
     @JoinColumn(name = "write_post_seq", nullable = false)
@@ -40,18 +44,31 @@ public class Comment {
     @Column(name = "content", nullable = false, length = 500)
     private String content;
 
+    @Builder.Default
     @Column(name = "like_cnt")
-    private Integer likeCnt = 0;
+    private int likeCnt = 0;
 
+    @Builder.Default
     @Column(name = "report_cnt")
-    private Integer reportCnt = 0;
+    private int reportCnt = 0;
 
-    @Column(name = "created_at", nullable = false)
+    @Builder.Default
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "status", nullable = false)
+    @Builder.Default
+    @Column(name = "status")
     private String status = "Y";
+
+    public static Comment from(CommentCreateDto dto, User user, Post post) {
+        return Comment.builder()
+                .writeUserSeq(user)
+                .writePostSeq(post)
+                .content(dto.getContent())
+                // 필요한 다른 필드 설정
+                .build();
+    }
 }
