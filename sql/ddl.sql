@@ -104,7 +104,7 @@ create table if not exists images
     image_seq int auto_increment
     primary key,
     post_seq  int  not null,
-    image_url text null,
+    image_url text not null,
     constraint images_post_seq_fk
     foreign key (post_seq) references post (post_seq)
     );
