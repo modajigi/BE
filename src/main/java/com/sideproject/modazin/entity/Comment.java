@@ -1,6 +1,7 @@
 package com.sideproject.modazin.entity;
 
 import com.sideproject.modazin.dto.CommentCreateDto;
+import com.sideproject.modazin.dto.CommentUpdateDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,10 +13,13 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment")
@@ -41,6 +45,7 @@ public class Comment {
     @JoinColumn(name = "write_comment_seq")
     private Comment writeCommentSeq;
 
+    @Setter
     @Column(name = "content", nullable = false, length = 500)
     private String content;
 
@@ -68,7 +73,6 @@ public class Comment {
                 .writeUserSeq(user)
                 .writePostSeq(post)
                 .content(dto.getContent())
-                // 필요한 다른 필드 설정
                 .build();
     }
 }
