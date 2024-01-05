@@ -70,6 +70,7 @@ public class Comment {
 
     public static Comment from(CommentCreateDto dto, User user, Post post) {
         return Comment.builder()
+                .contentType("C")
                 .writeUserSeq(user)
                 .writePostSeq(post)
                 .content(dto.getContent())
