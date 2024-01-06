@@ -22,28 +22,28 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll()
-                            .requestMatchers("/user/login").permitAll()
-                            .requestMatchers("/user/sign-up").permitAll()
-                            // 버그 해결 후 삭제 예정
-                            .requestMatchers("/**").permitAll()
-                            .anyRequest().authenticated();
+                .authorizeHttpRequests(auth -> { auth
+                            .requestMatchers("/", "/login", "/sign-up").permitAll()
+                            .anyRequest().permitAll(); // 개발 단계에서는 인중 허가
+//                            .requestMatchers("/admin/**").hasRole("ADMIN")
+//                            .requestMatchers("/user/**").hasRole("USER")
+//                            .anyRequest().authenticated();
                 })
-                .formLogin(form -> {
-                    form.loginProcessingUrl("/login")
+                .formLogin(form -> { form
+                            .loginProcessingUrl("/login")
                             .loginPage("/user/login") // 로그인 페이지
-                            .permitAll()
-                            .failureUrl("/user/login") // 로그인 실패 시 이동 할 페이지
-                            .defaultSuccessUrl("/"); // 로그인 성공시 이동페이지
+                            .defaultSuccessUrl("/") // 로그인 성공 시
+                            .failureUrl("/user/login") // 로그인 실패 시
+                            .usernameParameter("email")
+                            .permitAll();
                 })
-                .logout((out) -> {
-                            out.logoutSuccessUrl("/user/login") // 로그아웃성공 페이지
-                                    .logoutUrl("/logout") //로그아웃성공 시 이동할 url
-                                    .invalidateHttpSession(true) /*로그아웃시 세션 제거*/
-                                    .deleteCookies("JSESSIONID") /*쿠키 제거*/
-                                    .clearAuthentication(true) /*권한정보 제거*/
-                                    .permitAll();
+                .logout(out -> { out
+                            .logoutSuccessUrl("/user/login") // 로그아웃성공 페이지
+                            .logoutUrl("/logout") //로그아웃성공 시 이동할 url
+                            .invalidateHttpSession(true) /*로그아웃시 세션 제거*/
+                            .deleteCookies("JSESSIONID") /*쿠키 제거*/
+                            .clearAuthentication(true) /*권한정보 제거*/
+                            .permitAll();
                         }
                 );
 
