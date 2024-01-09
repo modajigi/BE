@@ -7,13 +7,16 @@ import com.sideproject.modazin.repository.UserLogRepository;
 import com.sideproject.modazin.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserLogRepository userLogRepository;
@@ -38,6 +41,12 @@ public class UserService {
         if (userRepository.existsByNickName(userSignUpDto.getNickName())) {
             throw new IllegalStateException("이미 사용 중인 닉네임입니다.");
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("로그인에 실패하였습니다."));
     }
 
 

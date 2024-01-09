@@ -6,10 +6,15 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -18,14 +23,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @DynamicInsert
 @Table(name= "user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_seq", nullable = false)
     private Long userSeq;
 
-    @Column(nullable = false , unique = true) // DB에 unique key 추가
+    @Column(nullable = false )
     private String email;
 
     @Column(name = "nick_name", nullable = false)
@@ -34,13 +39,13 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigDecimal longitude;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigDecimal latitude;
 
-    @Column(name = "location_created_at", nullable = false)
+    @Column(name = "location_created_at", nullable = true)
     private LocalDateTime locationCreatedAt;
 
     @Column(name = "phone_number", nullable = true)
@@ -84,6 +89,48 @@ public class User {
                 .authority(Authority.USER)
                 .build();
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorityList = new ArrayList<>();
+        authorityList.add(new SimpleGrantedAuthority("USER"));
+        return authorityList;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    // 계정 만료여부
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // true : 만료 x
+    }
+
+    // 계정 잠금여부
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // true : 잠금 x
+    }
+
+    // 패스워드 만료 여부
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // true : 만료 x
+    }
+
+    // 계정 사용가능 여부
+    @Override
+    public boolean isEnabled() {
+        return true; // true : 사용가능
+    }
+
 
 }
 
