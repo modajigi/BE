@@ -174,7 +174,7 @@ create table if not exists comment
     primary key,
     content_type      char     default 'C'               not null,
     write_user_seq    int                                not null,
-    write_post_seq    int                                not null,
+    post_seq    int                                not null,
     write_comment_seq int                                null,
     content           varchar(500)                       not null,
     like_cnt          int      default 0                 null,
@@ -185,7 +185,7 @@ create table if not exists comment
     constraint comment_comment_seq_fk
     foreign key (write_comment_seq) references comment (comment_seq),
     constraint comment_post_seq_fk
-    foreign key (write_post_seq) references post (post_seq),
+    foreign key (post_seq) references post (post_seq),
     constraint comment_user_seq_fk
     foreign key (write_user_seq) references user (user_seq)
     );
